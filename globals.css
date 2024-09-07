@@ -7,17 +7,17 @@ body {
   flex-direction: column;
   gap: 15px;
   margin-bottom: 40px;
+  background-color: white;
 }
 .title{
   font-size: 48px;
   font-weight: 500;
-  color: black;
+  color: white;
 }
 .search-bar{
   display: flex;
   width: 15%;
   height: 10%;
-  border-radius: 5%;
 }
 
 .title-container{
@@ -36,11 +36,13 @@ body {
   align-items: center;
   overflow: scroll;
   align-self: center;
+  border-color: black;
+  border-radius: 15px;
 }
 
 .material-symbols-outlined {
   font-variation-settings:
-  'FILL' 1,
+  'FILL' 0,
   'wght' 400,
   'GRAD' 0,
   'opsz' 10
@@ -48,14 +50,14 @@ body {
 .search-container{
   display: flex;
   flex-direction: row;
-  gap: 15px;
-  align-items: center;
-  justify-items: center;
-  border-radius: 25px;
+  justify-items: flex-start;
+  justify-content: flex-start;
+  border-radius: 10px;
   padding-inline: 20px;
   padding-top: 5px;
   border-width: 1px;
   border: solid 2px black;
+  background-color: white;
 }
 
 ::placeholder{
@@ -68,19 +70,21 @@ a,
   text-decoration: none;
   font-family:'Arial';
   font-weight: 300;
-  color: white;
+  color: black;
   width: 75%;
   height: 100%;
-  text-align: center;
-  background-color: darkslategray;
+  display: flex;
+  flex-direction: row;
 }
 
 .divider{
-  width: 100%;
+  width: 75%;
   height: 1px;
-  background-color: black;
+  background-color: lightgray;
 }
 
 .search-input{
   font-size: 18px;
+  caret-color: white;
+  color: black;
 }

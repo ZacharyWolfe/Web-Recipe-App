@@ -11,6 +11,7 @@
       window.recipes = recipes;
 
       const listView = document.createElement('div');
+      listView.className = 'recipe-list';
       const recipeView = document.createElement('div');
       setupRecipeView(listView, recipeView);
       setupRecipeList(listView, recipeView, recipes);
@@ -39,6 +40,7 @@
     function setupRecipeList(listView, recipeView, recipes, selectedRecipe) {
       for (const recipe of recipes) {
         const listElement = document.createElement('div');
+        listElement.className = 'recipe'
         const link = document.createElement('div');
         link.addEventListener('click', function (event) {
           displayRecipe(recipe, recipeView);
@@ -49,6 +51,12 @@
         link.appendChild(text);
         listElement.appendChild(link);
         listView.appendChild(listElement);
+        const chevron = document.createElement('span');
+        chevron.className = 'material-symbols-outlined';
+        const divider = document.createElement('div');
+        divider.className = 'divider';
+        listView.appendChild(divider); 
+        listView.appendChild(chevron);
       }
     }
 
@@ -111,12 +119,12 @@
       Recipes
     </div>
   </div>
-  <label style="display:flex; align-content:center">
+  <label>
     <div class="search-container">
-      <span class="material-symbols-outlined">
+      <span class="material-symbols-outlined" style="color: black">
         search
       </span>
-      <input id="search" type="text" placeholder="Search Recipes" class="search-input" style="outline: none; border:none; align-self: center">
+      <input id="search" type="text" placeholder="Search Recipes" class="search-input" style="display: flex; outline: none; border:none; align-self: center; background-color: inherit">
     </div>
   </label>
 </body>
