@@ -28,9 +28,13 @@
       recipeContainer.id = 'recipe-container';
       const backButton = document.createElement('div');
       backButton.className = 'back-button-container';
+
+      const label = document.getElementById('search-bar');
+
       backButton.addEventListener('click', function (event) {
         listView.style.display = 'flex';
         recipeView.style.display = 'none';
+        label.style.display = 'block';
       });
       const backButtonTitle = document.createElement('div');
       backButtonTitle.appendChild(document.createTextNode('Back'));
@@ -78,10 +82,13 @@
         listElement.appendChild(chevron);
         const label = document.createElement('label');
         label.className = 'recipe';
+
+        const searchLabel = document.getElementById('search-bar');
         label.addEventListener('click', function (event) {
           displayRecipe(recipe, recipeView);
           listView.style.display = 'none';
           recipeView.style.display = 'block';
+          searchLabel.style.display = 'none';
         });
         label.appendChild(listElement);
         listView.appendChild(label);
@@ -112,6 +119,8 @@
     }
 
     async function displayRecipe(recipe, recipeView) {
+      const label = document.getElementById('search-bar');
+      label.style.display = 'none';
       const response = await fetch(recipe.path);
       const content = await response.json();
       const recipeContainer = document.getElementById('recipe-container');
@@ -182,7 +191,7 @@
       Recipes
     </div>
   </div>
-  <label style="width:75%">
+  <label id="search-bar" style="width:75%">
     <div class="search-container">
       <span class="material-symbols-outlined" style="color: black">
         search
