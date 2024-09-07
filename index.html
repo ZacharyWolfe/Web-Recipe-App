@@ -1,22 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="module">
+    try {
+      const response = await fetch('https://denni01.github.io/recipes/recipe-list.json');
+      window.recipes = await response.json();
+      const list = document.createElement('div');
+      document.body.appendChild(list);
+      for (const recipe of recipes) {
+        const listElement = document.createElement('div');
+        const link = document.createElement('a');
+        link.href = recipe.path;
+        const text = document.createTextNode(recipe.title);
+        link.appendChild(text);
+        listElement.appendChild(link);
+        list.appendChild(listElement);
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  </script>
   <title>Recipe App</title>
   <link rel="stylesheet" href="globals.css">
 </head>
+
 <body>
   <div class="header-container">
     <div class="title-container">
       <img src="./assets/AppIcon.png" alt="logo" width="75" height="75">
       <div class="title">
         Recipes
-      </div> 
+      </div>
     </div>
     <form> 
       <input id="search" type="text" placeholder="Search Recipes" value="searchField">
     </form>
   </div>
 </body>
+
 </html>
