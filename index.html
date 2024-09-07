@@ -11,12 +11,14 @@
       window.recipes = recipes;
 
       const listView = document.createElement('div');
+      listView.id = 'list-view';
       const recipeView = document.createElement('div');
-      setupRecipeView(listView, recipeView);
-      setupRecipeList(listView, recipeView, recipes);
-
+      recipeView.id = 'recipe-view';
       document.body.appendChild(listView);
       document.body.appendChild(recipeView);
+      setupRecipeView(listView, recipeView);
+      displayRecipes(recipes);
+      setupSearch();
     } catch (e) {
       console.error(e)
     }
@@ -36,7 +38,12 @@
       recipeView.style.display = 'none';
     }
 
-    function setupRecipeList(listView, recipeView, recipes, selectedRecipe) {
+    function displayRecipes(recipes) {
+      const recipeView = document.getElementById('recipe-view');
+      const listView = document.getElementById('list-view');
+      while (listView.firstChild) {
+        listView.removeChild(listView.firstChild);
+      }
       for (const recipe of recipes) {
         const listElement = document.createElement('div');
         const link = document.createElement('div');
@@ -50,6 +57,28 @@
         listElement.appendChild(link);
         listView.appendChild(listElement);
       }
+    }
+
+    function setupSearch() {
+      const searchInput = document.getElementById('search');
+      searchInput.addEventListener('keyup', function (event) {
+        search(searchInput.value);
+      });
+    }
+
+    function search(value) {
+      if (!value) {
+        displayRecipes(window.recipes);
+        return;
+      }
+      const recipes = window.recipes;
+      const matches = [];
+      for (const recipe of recipes) {
+        if (recipe.title.toLowerCase().includes(value.toLowerCase())) {
+          matches.push(recipe);
+        }
+      }
+      displayRecipes(matches);
     }
 
     async function displayRecipe(recipe, recipeView) {
@@ -111,9 +140,7 @@
         Recipes
       </div>
     </div>
-    <form> 
-      <input id="search" type="text" placeholder="Search Recipes" value="searchField">
-    </form>
+    <input id="search" type="text" placeholder="Search Recipes">
   </div>
 </body>
 
