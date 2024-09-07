@@ -11,13 +11,14 @@
       window.recipes = recipes;
 
       const listView = document.createElement('div');
-      listView.className = 'recipe-list';
+      listView.id = 'list-view';
       const recipeView = document.createElement('div');
-      setupRecipeView(listView, recipeView);
-      setupRecipeList(listView, recipeView, recipes);
-
+      recipeView.id = 'recipe-view';
       document.body.appendChild(listView);
       document.body.appendChild(recipeView);
+      setupRecipeView(listView, recipeView);
+      displayRecipes(recipes);
+      setupSearch();
     } catch (e) {
       console.error(e)
     }
@@ -37,7 +38,12 @@
       recipeView.style.display = 'none';
     }
 
-    function setupRecipeList(listView, recipeView, recipes, selectedRecipe) {
+    function displayRecipes(recipes) {
+      const recipeView = document.getElementById('recipe-view');
+      const listView = document.getElementById('list-view');
+      while (listView.firstChild) {
+        listView.removeChild(listView.firstChild);
+      }
       for (const recipe of recipes) {
         const listElement = document.createElement('div');
         listElement.className = 'recipe'
@@ -51,13 +57,29 @@
         link.appendChild(text);
         listElement.appendChild(link);
         listView.appendChild(listElement);
-        const chevron = document.createElement('span');
-        chevron.className = 'material-symbols-outlined';
-        const divider = document.createElement('div');
-        divider.className = 'divider';
-        listView.appendChild(divider); 
-        listView.appendChild(chevron);
       }
+    }
+
+    function setupSearch() {
+      const searchInput = document.getElementById('search');
+      searchInput.addEventListener('keyup', function (event) {
+        search(searchInput.value);
+      });
+    }
+
+    function search(value) {
+      if (!value) {
+        displayRecipes(window.recipes);
+        return;
+      }
+      const recipes = window.recipes;
+      const matches = [];
+      for (const recipe of recipes) {
+        if (recipe.title.toLowerCase().includes(value.toLowerCase())) {
+          matches.push(recipe);
+        }
+      }
+      displayRecipes(matches);
     }
 
     async function displayRecipe(recipe, recipeView) {
@@ -112,21 +134,16 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 
-<body class="header-container">
-  <div class="title-container">
-    <img src="./assets/AppIcon.png" alt="logo" width="75" height="75", style="border-radius: 15px;">
-    <div class="title">
-      Recipes
+<body>
+  <div class="header-container">
+    <div class="title-container">
+      <img src="./assets/AppIcon.png" alt="logo" width="75" height="75">
+      <div class="title">
+        Recipes
+      </div>
     </div>
+    <input id="search" type="text" placeholder="Search Recipes">
   </div>
-  <label>
-    <div class="search-container">
-      <span class="material-symbols-outlined" style="color: black">
-        search
-      </span>
-      <input id="search" type="text" placeholder="Search Recipes" class="search-input" style="display: flex; outline: none; border:none; align-self: center; background-color: inherit">
-    </div>
-  </label>
 </body>
 
 </html>
