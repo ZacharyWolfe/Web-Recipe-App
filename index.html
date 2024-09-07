@@ -7,20 +7,96 @@
   <script type="module">
     try {
       const response = await fetch('https://denni01.github.io/recipes/recipe-list.json');
-      window.recipes = await response.json();
-      const list = document.createElement('div');
-      document.body.appendChild(list);
+      const recipes = await response.json();
+      window.recipes = recipes;
+
+      const listView = document.createElement('div');
+      const recipeView = document.createElement('div');
+      setupRecipeView(listView, recipeView);
+      setupRecipeList(listView, recipeView, recipes);
+
+      document.body.appendChild(listView);
+      document.body.appendChild(recipeView);
+    } catch (e) {
+      console.error(e)
+    }
+
+    function setupRecipeView(listView, recipeView) {
+      const recipeContainer = document.createElement('div');
+      recipeContainer.id = 'recipe-container';
+      const backButton = document.createElement('button');
+      backButton.addEventListener('click', function (event) {
+        listView.style.display = 'block';
+        recipeView.style.display = 'none';
+      });
+      const backButtonTitle = document.createTextNode('Back');
+      backButton.appendChild(backButtonTitle);
+      recipeView.appendChild(backButton);
+      recipeView.appendChild(recipeContainer);
+      recipeView.style.display = 'none';
+    }
+
+    function setupRecipeList(listView, recipeView, recipes, selectedRecipe) {
       for (const recipe of recipes) {
         const listElement = document.createElement('div');
-        const link = document.createElement('a');
-        link.href = recipe.path;
+        const link = document.createElement('div');
+        link.addEventListener('click', function (event) {
+          displayRecipe(recipe, recipeView);
+          listView.style.display = 'none';
+          recipeView.style.display = 'block';
+        });
         const text = document.createTextNode(recipe.title);
         link.appendChild(text);
         listElement.appendChild(link);
-        list.appendChild(listElement);
+        listView.appendChild(listElement);
       }
-    } catch (e) {
-      console.error(e)
+    }
+
+    async function displayRecipe(recipe, recipeView) {
+      const response = await fetch(recipe.path);
+      const content = await response.json();
+      const recipeContainer = document.getElementById('recipe-container');
+      while (recipeContainer.firstChild) {
+        recipeContainer.removeChild(recipeContainer.firstChild);
+      }
+
+      const titleContainer = document.createElement('div');
+      const title = document.createTextNode(recipe.title);
+      titleContainer.appendChild(title);
+      recipeContainer.appendChild(titleContainer);
+
+      const ingredientsTitleContainer = document.createElement('div');
+      const ingredientsTitle = document.createTextNode('Ingredients');
+      ingredientsTitleContainer.appendChild(ingredientsTitle);
+      recipeContainer.appendChild(ingredientsTitleContainer);
+
+      for (const ingredient of content.ingredients) {
+        const ingredientContainer = document.createElement('div');
+        const ingredientNameContainer = document.createElement('div');
+        const ingredientName = document.createTextNode(ingredient.name);
+        ingredientNameContainer.appendChild(ingredientName);
+        ingredientContainer.appendChild(ingredientNameContainer);
+        const quantityContainer = document.createElement('div');
+        const unit = ingredient.unit === 'none' ? '' : ingredient.unit;
+        const quantityName = document.createTextNode(`${ingredient.quantity} ${unit}`);
+        quantityContainer.appendChild(quantityName);
+        ingredientContainer.appendChild(quantityContainer);
+        recipeContainer.appendChild(ingredientContainer);
+      }
+
+      const stepsTitleContainer = document.createElement('div');
+      const stepsName = document.createTextNode('Steps');
+      stepsTitleContainer.appendChild(stepsName);
+      recipeContainer.appendChild(stepsTitleContainer);
+
+      const stepList = document.createElement('ol');
+      recipeContainer.appendChild(stepList);
+      for (const step of content.steps) {
+        const stepListElement = document.createElement('li');
+        const stepContent = document.createTextNode(step.step);
+        stepListElement.appendChild(stepContent);
+        stepList.appendChild(stepListElement);
+      }
     }
   </script>
   <title>Recipe App</title>
