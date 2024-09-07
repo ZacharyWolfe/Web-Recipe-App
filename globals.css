@@ -1,4 +1,4 @@
-.header-container{
+body {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -6,6 +6,7 @@
   height: 100%;
   flex-direction: column;
   gap: 15px;
+  margin-bottom: 40px;
 }
 .title{
   font-size: 48px;
@@ -18,13 +19,68 @@
   height: 10%;
   border-radius: 5%;
 }
-body{
-  width: 100%;
-  height: 100%;
-}
+
 .title-container{
   display: flex;
   flex-direction: row;
   gap: 15px;
   align-items: center;
+}
+
+.recipe-list{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 25%;
+  height: 100%;
+  align-items: center;
+  overflow: scroll;
+  align-self: center;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 10
+}
+.search-container{
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+  justify-items: center;
+  border-radius: 25px;
+  padding-inline: 20px;
+  padding-top: 5px;
+  border-width: 1px;
+  border: solid 2px black;
+}
+
+::placeholder{
+  font-size: 16px;
+}
+
+a,
+.recipe{
+  font-size: 18px;
+  text-decoration: none;
+  font-family:'Arial';
+  font-weight: 300;
+  color: white;
+  width: 75%;
+  height: 100%;
+  text-align: center;
+  background-color: darkslategray;
+}
+
+.divider{
+  width: 100%;
+  height: 1px;
+  background-color: black;
+}
+
+.search-input{
+  font-size: 18px;
 }
